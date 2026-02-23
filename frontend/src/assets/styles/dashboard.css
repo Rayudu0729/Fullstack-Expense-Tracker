@@ -1,0 +1,299 @@
+/* ===== DASHBOARD REDESIGN ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ===== STAT CARDS ===== */
+.details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin: 28px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.detail-card {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-radius: 16px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.detail-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(52, 211, 153, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.detail-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.detail-icon-wrap img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.detail-icon-wrap.emerald {
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.detail-icon-wrap.rose {
+    background: rgba(251, 113, 133, 0.12);
+    border: 1px solid rgba(251, 113, 133, 0.2);
+}
+
+.detail-icon-wrap.cyan {
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.detail-icon-wrap.violet {
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.detail-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===== CHART SECTION ===== */
+.dashboard-chart {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+    min-height: 380px;
+    font-family: 'Inter', sans-serif;
+}
+
+.dashboard-chart .chart {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.dashboard-chart .chart:hover {
+    border-color: rgba(52, 211, 153, 0.15);
+}
+
+.dashboard-chart .chart .chart-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--text);
+}
+
+.dashboard-chart .chart .chart-top h2 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--text);
+}
+
+.dashboard-chart .chart .chart-top button {
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 10px;
+    width: max-content;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    color: #34d399;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.dashboard-chart .chart .chart-top button:hover {
+    background: rgba(52, 211, 153, 0.2);
+    border-color: rgba(52, 211, 153, 0.4);
+}
+
+.dashboard-chart .chart h4 {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* ===== BUDGET FORM MODAL ===== */
+.budget-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.budget-form.active {
+    display: flex;
+}
+
+.budget-form form {
+    padding: 32px;
+    background: var(--third);
+    border: 1px solid rgba(52, 211, 153, 0.1);
+    border-radius: 20px;
+    color: var(--text);
+    min-width: 360px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.budget-form form h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.budget-form form hr {
+    border: none;
+    border-top: 1px solid rgba(52, 211, 153, 0.1);
+    margin-bottom: 20px;
+}
+
+/* ===== SELECT (Month Picker) ===== */
+select {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--text);
+    border: 1px solid rgba(52, 211, 153, 0.15);
+    border-radius: 12px;
+    background-color: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+select:hover {
+    border-color: rgba(52, 211, 153, 0.3);
+}
+
+select:focus {
+    border-color: rgba(52, 211, 153, 0.5);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+}
+
+/* ===== LIGHT THEME ===== */
+.light .detail-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.light .detail-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    border-color: rgba(52, 211, 153, 0.2);
+}
+
+.light .detail-icon-wrap img {
+    filter: brightness(0) saturate(100%);
+}
+
+.light .detail-label {
+    color: #64748b;
+}
+
+.light .dashboard-chart .chart {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.light .dashboard-chart .chart:hover {
+    border-color: rgba(52, 211, 153, 0.15);
+}
+
+.light .dashboard-chart .chart .chart-top button {
+    background: rgba(52, 211, 153, 0.08);
+    color: #059669;
+}
+
+.light select {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .budget-form form {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media all and (max-width: 1200px) {
+    .details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media all and (max-width: 900px) {
+    .dashboard-chart {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .details {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-value {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3de388" />
+      <stop offset="100%" stop-color="#12a8b9" />
+    </linearGradient>
+    <clipPath id="bounds">
+      <rect x="30" y="30" width="140" height="140" />
+    </clipPath>
+    <mask id="mask-a">
+      <rect width="200" height="200" fill="white" />
+      <path d="M 125 125 L 90 76" fill="none" stroke="black" stroke-width="40" stroke-linecap="round"/>
+    </mask>
+    <mask id="mask-b">
+      <rect width="200" height="200" fill="white" />
+      <path d="M 75 75 L 110 124" fill="none" stroke="black" stroke-width="40" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <rect width="200" height="200" rx="40" fill="url(#bgGrad)" />
+  <g clip-path="url(#bounds)">
+    <path d="M 43 190 L 43 30 L 100 110 L 157 30 L 157 190" fill="none" stroke="#ffffff" stroke-width="26" stroke-linejoin="miter" stroke-miterlimit="10" mask="url(#mask-a)" />
+    <path d="M 43 10 L 43 170 L 100 90 L 157 170 L 157 10" fill="none" stroke="#ffffff" stroke-width="26" stroke-linejoin="miter" stroke-miterlimit="10" mask="url(#mask-b)" />
+  </g>
+</svg>

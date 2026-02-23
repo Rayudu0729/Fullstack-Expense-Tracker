@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Backend - Spring Boot",
+            "request": "launch",
+            "mainClass": "com.fullStack.expenseTracker.ExpenseTrackerApplication",
+            "projectName": "expenseTracker",
+            "cwd": "${workspaceFolder}/backend"
+        },
+        {
+            "type": "node",
+            "name": "Frontend - React",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "start"
+            ],
+            "cwd": "${workspaceFolder}/frontend",
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Full Stack (Backend + Frontend)",
+            "configurations": [
+                "Backend - Spring Boot",
+                "Frontend - React"
+            ]
+        }
+    ]
+}

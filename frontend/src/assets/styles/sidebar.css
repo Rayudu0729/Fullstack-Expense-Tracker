@@ -1,0 +1,120 @@
+/* ===== SIDEBAR ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+.user-panel .side-bar {
+    min-width: 280px;
+    max-width: 100%;
+    transition: 0.5s;
+    border-right: 1px solid rgba(52, 211, 153, 0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: var(--third);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.user-panel .user-content {
+    width: 100%;
+}
+
+.user-panel .side-bar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 15px;
+}
+
+.user-panel .side-bar ul li {
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 14px 20px;
+    border-bottom: none;
+    cursor: pointer;
+    border-radius: 12px;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.user-panel .side-bar ul li:hover {
+    background-color: var(--hover);
+    opacity: 1;
+}
+
+.user-panel .side-bar ul li.active {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    opacity: 1;
+    border: 1px solid rgba(52, 211, 153, 0.15);
+}
+
+.user-panel .side-bar ul li i {
+    margin-right: 12px;
+    color: var(--text);
+    opacity: 0.5;
+}
+
+.user-panel .side-bar ul li.active i {
+    color: #34d399;
+    opacity: 1;
+}
+
+.user-panel .side-bar ul li.active:hover {
+    background: rgba(52, 211, 153, 0.15);
+}
+
+.nav-link {
+    text-decoration: none;
+    width: 100%;
+}
+
+.mobile {
+    display: none;
+}
+
+/* ===== LIGHT OVERRIDES ===== */
+.light .user-panel .side-bar {
+    border-right-color: rgba(0, 0, 0, 0.06);
+}
+
+.light .user-panel .side-bar ul li.active {
+    background: rgba(5, 150, 105, 0.08);
+    color: #059669;
+    border-color: rgba(5, 150, 105, 0.12);
+}
+
+.light .user-panel .side-bar ul li.active i {
+    color: #059669;
+}
+
+/* ===== RESPONSIVE ===== */
+@media all and (max-width: 768px) {
+    .user-panel .side-bar {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        left: -100%;
+        background-color: var(--third);
+    }
+
+    .user-panel .side-bar.open {
+        left: 0;
+    }
+
+    .mobile {
+        display: inline;
+    }
+
+    .menu {
+        position: absolute;
+        left: calc(100% + 20px);
+        top: 18px;
+    }
+
+    .user-panel .side-bar.open .menu {
+        display: none;
+    }
+}
