@@ -5,27 +5,25 @@ pool:
   name: local-agent
 
 variables:
-  ACR_NAME: mywallet
+  ACR_NAME: MyWallet
   ACR_LOGIN_SERVER: mywallet.azurecr.io
 
 steps:
 
 - checkout: self
 
-# Build Backend
 - script: |
     echo Building backend image
     docker build -t $(ACR_LOGIN_SERVER)/mywallet-backend:$(Build.BuildId) backend
   displayName: Build Backend
 
-# Build Frontend
+
 - script: |
     echo Building frontend image
     docker build -t $(ACR_LOGIN_SERVER)/mywallet-frontend:$(Build.BuildId) frontend
   displayName: Build Frontend
 
 
-# Login to Azure + ACR
 - task: AzureCLI@2
   displayName: Login to ACR
   inputs:
@@ -36,13 +34,11 @@ steps:
       az acr login --name $(ACR_NAME)
 
 
-# Push Backend
 - script: |
     docker push $(ACR_LOGIN_SERVER)/mywallet-backend:$(Build.BuildId)
   displayName: Push Backend Image
 
 
-# Push Frontend
 - script: |
     docker push $(ACR_LOGIN_SERVER)/mywallet-frontend:$(Build.BuildId)
   displayName: Push Frontend Image
