@@ -1,44 +1,76 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool:
-  name: local-agent
+stages:
+- stage: BuildPushUpdate
+  jobs:
+  - job: BuildAndPush
+    pool:
+      name: local-agent
 
-variables:
-  ACR_NAME: MyWallet
-  ACR_LOGIN_SERVER: mywallet.azurecr.io
+    steps:
 
-steps:
+    - checkout: self
 
-- checkout: self
+    - task: AzureCLI@2
+      displayName: Login to Azure Container Registry
+      inputs:
+        azureSubscription: AzureServiceConnection
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          echo "Logging into Azure Container Registry"
+          az acr login --name mywallet
 
-- script: |
-    echo Building backend image
-    docker build -t $(ACR_LOGIN_SERVER)/mywallet-backend:$(Build.BuildId) backend
-  displayName: Build Backend
+    - task: CmdLine@2
+      displayName: Build Backend Image
+      inputs:
+        script: |
+          echo "Building backend docker image"
+          docker build -t mywallet.azurecr.io/mywallet-backend:$(Build.BuildId) ./backend
 
+    - task: CmdLine@2
+      displayName: Build Frontend Image
+      inputs:
+        script: |
+          echo "Building frontend docker image"
+          docker build -t mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId) ./frontend
 
-- script: |
-    echo Building frontend image
-    docker build -t $(ACR_LOGIN_SERVER)/mywallet-frontend:$(Build.BuildId) frontend
-  displayName: Build Frontend
+    - task: CmdLine@2
+      displayName: Push Backend Image
+      inputs:
+        script: |
+          echo "Pushing backend image"
+          docker push mywallet.azurecr.io/mywallet-backend:$(Build.BuildId)
 
+    - task: CmdLine@2
+      displayName: Push Frontend Image
+      inputs:
+        script: |
+          echo "Pushing frontend image"
+          docker push mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId)
 
-- task: AzureCLI@2
-  displayName: Login to ACR
-  inputs:
-    azureSubscription: AzureServiceConnection
-    scriptType: ps
-    scriptLocation: inlineScript
-    inlineScript: |
-      az acr login --name $(ACR_NAME)
+    - task: CmdLine@2
+      displayName: Update GitOps Repository
+      inputs:
+        script: |
+          echo "Cloning GitOps repository"
 
+          git clone https://$(GITOPS_TOKEN)@github.com/Rayudu0729/mywallet-gitops.git
 
-- script: |
-    docker push $(ACR_LOGIN_SERVER)/mywallet-backend:$(Build.BuildId)
-  displayName: Push Backend Image
+          cd mywallet-gitops
 
+          echo "Updating backend image"
+          sed -i "s|mywallet.azurecr.io/mywallet-backend:.*|mywallet.azurecr.io/mywallet-backend:$(Build.BuildId)|g" backend/deployment.yaml
 
-- script: |
-    docker push $(ACR_LOGIN_SERVER)/mywallet-frontend:$(Build.BuildId)
-  displayName: Push Frontend Image
+          echo "Updating frontend image"
+          sed -i "s|mywallet.azurecr.io/mywallet-frontend:.*|mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId)|g" frontend/deployment.yaml
+
+          git config user.email "devops@mywallet.com"
+          git config user.name "azure-devops"
+
+          git add .
+          git commit -m "Update images to $(Build.BuildId)"
+          git push
