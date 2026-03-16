@@ -1,30 +1,25 @@
-# ===== Stage 1: Build =====
+# Stage 1: Build the React application
 FROM node:18-alpine AS build
-
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci --silent
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
 
-COPY . .
+# Copy the explicit environment variable file
+COPY .env ./
 
-ARG REACT_APP_API_BASE_URL=http://localhost:8080/mywallet
-ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
-
+# Copy source code and build
+COPY . ./
 RUN npm run build
 
-# ===== Stage 2: Serve with nginx =====
+# Stage 2: Serve the application with Nginx
 FROM nginx:alpine
-
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config (listens on 8080)
+# Copy the custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy build output
+# Copy the built React app to Nginx's web root
 COPY --from=build /app/build /usr/share/nginx/html
 
-EXPOSE 8080
-
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

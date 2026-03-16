@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mywallet-backend
+  labels:
+    app: mywallet-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mywallet-backend
+  template:
+    metadata:
+      labels:
+        app: mywallet-backend
+    spec:
+      containers:
+      - name: backend
+        image: mywallet.azurecr.io/mywallet-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mywalletmysql.mysql.database.azure.com:3306/expensetracker?useSSL=true&requireSSL=true&serverTimezone=UTC"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "mysqladmin"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "surya@1234"
+        - name: APP_CORS_ALLOWED_ORIGINS
+          value: "https://mywallet.rayududev.live,https://api.mywallet.rayududev.live"
+        # Optional: Add resource limits here
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mywallet-backend-service
+spec:
+  type: ClusterIP # Change back to internal since Ingress handles the public access
+  selector:
+    app: mywallet-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

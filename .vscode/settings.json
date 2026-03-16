@@ -2,5 +2,12 @@
     "java.compile.nullAnalysis.mode": "automatic",
     "java.project.sourcePaths": [
         "src/main/java"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.maven.enabled": true,
+    "java.project.referencedLibraries": [],
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-17",
+    "maven.executable.path": "${workspaceFolder}/backend/mvnw.cmd",
+    "java.configuration.maven.globalSettings": "",
+    "java.import.generatesMetadataFilesAtProjectRoot": false
 }
