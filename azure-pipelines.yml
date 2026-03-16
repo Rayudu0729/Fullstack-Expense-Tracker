@@ -52,25 +52,34 @@ stages:
           echo "Pushing frontend image"
           docker push mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId)
 
-    - task: CmdLine@2
+    - task: PowerShell@2
       displayName: Update GitOps Repository
       inputs:
+        targetType: inline
         script: |
-          echo "Cloning GitOps repository"
+          Write-Host "Cloning GitOps repository"
 
           git clone https://$(GITOPS_TOKEN)@github.com/Rayudu0729/mywallet-gitops.git
 
           cd mywallet-gitops
 
-          echo "Updating backend image"
-          sed -i "s|mywallet.azurecr.io/mywallet-backend:.*|mywallet.azurecr.io/mywallet-backend:$(Build.BuildId)|g" backend/deployment.yaml
+          Write-Host "Updating backend deployment"
 
-          echo "Updating frontend image"
-          sed -i "s|mywallet.azurecr.io/mywallet-frontend:.*|mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId)|g" frontend/deployment.yaml
+          (Get-Content backend/deployment.yaml) `
+          -replace 'mywallet.azurecr.io/mywallet-backend:.*', "mywallet.azurecr.io/mywallet-backend:$(Build.BuildId)" `
+          | Set-Content backend/deployment.yaml
+
+          Write-Host "Updating frontend deployment"
+
+          (Get-Content frontend/deployment.yaml) `
+          -replace 'mywallet.azurecr.io/mywallet-frontend:.*', "mywallet.azurecr.io/mywallet-frontend:$(Build.BuildId)" `
+          | Set-Content frontend/deployment.yaml
 
           git config user.email "devops@mywallet.com"
           git config user.name "azure-devops"
 
           git add .
+
           git commit -m "Update images to $(Build.BuildId)"
+
           git push
